@@ -1,6 +1,7 @@
 package com.example.librarypractice_20231029
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
@@ -26,6 +27,12 @@ class MainActivity : AppCompatActivity() {
             val myIntent = Intent(this, ViewPhotoActivity::class.java)
             startActivity(myIntent)
 
+        }
+        binding.btnCall.setOnClickListener{
+            // 전화 바로 걸기
+            val myUri = Uri.parse("tel:010-2222-3333")
+            val myIntent = Intent(Intent.ACTION_CALL, myUri)
+            startActivity(myIntent)
         }
     }
 }
