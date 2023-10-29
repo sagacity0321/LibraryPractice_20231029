@@ -4,6 +4,8 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
+import com.gun0912.tedpermission.PermissionListener
 import androidx.databinding.DataBindingUtil
 import com.example.librarypractice_20231029.databinding.ActivityMainBinding
 
@@ -28,11 +30,28 @@ class MainActivity : AppCompatActivity() {
             startActivity(myIntent)
 
         }
-        binding.btnCall.setOnClickListener{
+        binding.btnCall.setOnClickListener {
             // 전화 바로 걸기
+            // 요금을 사용하므로 권한 필요
             val myUri = Uri.parse("tel:010-2222-3333")
-            val myIntent = Intent(Intent.ACTION_CALL, myUri)
-            startActivity(myIntent)
+
+            // 권한 획득 성공 여부에 다른 행동 지침을 변수에 저장(인터페이스 -> 객체화: 익명클래스 활용)
+            val pl = object: PermissionListener {
+                override fun onPermissionGranted() {
+                    // 권한이 OK일 때 실행할 코드
+                    val myIntent = Intent(Intent.ACTION_CALL, myUri)
+                    startActivity(myIntent)
+                }
+
+                override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
+                    // 권한이 거부되었을 때 실행할 코드
+                    Toast.makeText(this@MainActivity, "권한이 거부되어 전화 연결이 불가능합니다.", Toast.LENGTH_SHORT)
+                        .show()
+                }
+
+            }
+
+
         }
     }
 }
