@@ -1,5 +1,6 @@
 package com.example.librarypractice_20231029
 
+import android.Manifest
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +9,7 @@ import android.widget.Toast
 import com.gun0912.tedpermission.PermissionListener
 import androidx.databinding.DataBindingUtil
 import com.example.librarypractice_20231029.databinding.ActivityMainBinding
+import com.gun0912.tedpermission.normal.TedPermission
 
 // 1st Party: 제조사 == 제작사(닌스-슈퍼마리오)
 // 2nd Party: 제조사, 제작사 협력 관계(남코-철권)
@@ -50,6 +52,12 @@ class MainActivity : AppCompatActivity() {
                 }
 
             }
+            // 실제 권한 확인
+            TedPermission.create()
+                .setPermissionListener(pl)
+                .setDeniedMessage("권한 설정이 필요합니다. [설정] > [권한]에서 권한을 허용할 수 있습니다.")
+                .setPermissions(Manifest.permission.CALL_PHONE)
+                .check()
 
 
         }
